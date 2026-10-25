@@ -353,6 +353,10 @@ async function recordUsage(req, res) {
   if (!result) throw new HttpError(404, 'Ключ не найден', { code: 'license_not_found' });
 
   if (!result.allowed) {
+    if (result.reason === 'license_blocked') {
+      json(res, 403, { ok: false, error: 'license_blocked', ...result });
+      return;
+    }
     const license = store.getLicense(key);
     const user = license?.userId ? store.getUserById(license.userId) : null;
     store.log(

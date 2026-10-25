@@ -231,7 +231,7 @@ npm run server
 | `GET` | `/api/me` | Текущий пользователь, ключ, usage, история запросов. |
 | `POST` | `/api/limit-request` | `{requestedLimit,message?}` → запрос админу. |
 | `POST` | `/api/support` | `{name?,email?,site?,message}` → запись в журнал поддержки. |
-| `POST` | `/api/usage` | `{licenseKey,visitorId}` → `{allowed,used,limit,remaining}`. |
+| `POST` | `/api/usage` | `{licenseKey,visitorId}` → `{allowed,used,limit,remaining}`; `403 license_blocked` для заблокированного ключа. |
 | `POST` | `/api/license/info` | Информация по ключу. |
 | `POST` | `/api/admin/login` | `{username,password}` → админ-сессия. |
 | `POST` | `/api/admin/logout` | Выход администратора. |

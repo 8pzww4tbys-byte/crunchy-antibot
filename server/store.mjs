@@ -259,6 +259,15 @@ export class Store {
     const license = this.getLicense(licenseKey);
     if (!license) return null;
 
+    const owner = license.userId ? this.getUserById(license.userId) : null;
+    if ((license.status && license.status !== 'active') || owner?.blocked) {
+      return {
+        ...this.usageView(license, date),
+        allowed: false,
+        reason: 'license_blocked',
+      };
+    }
+
     const plan = PLANS[license.plan] || PLANS.free;
     const configuredLimit = Math.floor(number(license.limit, plan.limit));
     const limit = configuredLimit > 0 ? configuredLimit : plan.limit;
