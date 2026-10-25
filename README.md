@@ -293,7 +293,7 @@ docker compose -f deploy/docker-compose.yml up -d --build
 
 ### Вариант 3: Render
 
-В репозитории есть `render.yaml` с постоянным диском. Заполните `PUBLIC_ORIGIN`, `ALLOWED_ORIGINS`, `SESSION_SECRET`, `ADMIN_PASSWORD_HASH` в панели Render. GitHub Pages не запускает Node и не хранит секреты, поэтому аккаунты и API должны жить на отдельном backend-домене.
+В репозитории есть `render.yaml` для бесплатного demo-инстанса Render. У Render free нет постоянного диска, данные сбрасываются при перезапуске, поэтому production — это VPS-вариант выше. Заполните `PUBLIC_ORIGIN`, `ALLOWED_ORIGINS`, `SESSION_SECRET`, `ADMIN_PASSWORD_HASH` в панели Render. GitHub Pages не запускает Node и не хранит секреты, поэтому аккаунты и API должны жить на отдельном backend-домене.
 
 ### Домен
 

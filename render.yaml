@@ -1,10 +1,11 @@
-# Render Blueprint (optional).
-# A persistent disk is required to keep licenses and usage across deploys.
+# Optional Render blueprint for a free demo instance.
+# Render's free web service has no persistent disk and sleeps after inactivity,
+# so use the VPS + systemd deployment for production data.
 services:
   - type: web
     name: crunchy-antibot
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: "true"
     startCommand: "node server/index.mjs"
     healthCheckPath: /api/health
@@ -14,7 +15,7 @@ services:
       - key: PORT
         value: 8787
       - key: DATA_DIR
-        value: /var/data
+        value: server/data
       - key: TRUST_PROXY
         value: "1"
       - key: PUBLIC_ORIGIN
@@ -29,7 +30,3 @@ services:
         value: admin
       - key: ADMIN_PASSWORD_HASH
         sync: false
-    disk:
-      name: crunchy-data
-      mountPath: /var/data
-      sizeGB: 1
