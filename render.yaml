@@ -1,0 +1,35 @@
+# Render Blueprint (optional).
+# A persistent disk is required to keep licenses and usage across deploys.
+services:
+  - type: web
+    name: crunchy-antibot
+    runtime: node
+    plan: starter
+    buildCommand: "true"
+    startCommand: "node server/index.mjs"
+    healthCheckPath: /api/health
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 8787
+      - key: DATA_DIR
+        value: /var/data
+      - key: TRUST_PROXY
+        value: "1"
+      - key: PUBLIC_ORIGIN
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: FREE_LIMIT
+        value: "10000"
+      - key: SESSION_SECRET
+        sync: false
+      - key: ADMIN_LOGIN
+        value: admin
+      - key: ADMIN_PASSWORD_HASH
+        sync: false
+    disk:
+      name: crunchy-data
+      mountPath: /var/data
+      sizeGB: 1

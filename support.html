@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Поддержка — crunchy antibot</title>
+  <meta name="description" content="Поддержка crunchy antibot: капча не работает, не проходит проверка, закончился лимит, нужен ключ или увеличение лимита.">
+  <link rel="icon" type="image/png" href="assets/crunchy-logo.png">
+  <link rel="stylesheet" href="assets/demo.css">
+  <link rel="stylesheet" href="assets/account.css">
+</head>
+<body data-page="support">
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html" aria-label="crunchy antibot — на главную">
+        <img src="assets/crunchy-logo.png" alt="" width="30" height="30">
+        <span>crunchy <b>antibot</b></span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="index.html#demo">Демо</a>
+        <a href="index.html#pricing">Бесплатно</a>
+        <a href="index.html#install">Подключение</a>
+        <a href="login.html">Войти</a>
+      </nav>
+      <a class="gh-link" href="register.html">Регистрация</a>
+    </div>
+  </header>
+
+  <main class="account-main">
+    <div class="container">
+      <div class="support-grid">
+        <section class="support-card" aria-labelledby="support-title">
+          <span class="eyebrow">техподдержка</span>
+          <h1 id="support-title">Капча не работает?</h1>
+          <p>Опишите проблему — сообщение попадёт в журнал администратора. Укажите e-mail, если нужен ответ, и адрес сайта, где подключена капча.</p>
+
+          <ol class="support-steps">
+            <li>Проверьте, что скопированы и JS, и CSS, а папка <code>photos</code> лежит рядом с виджетом.</li>
+            <li>Откройте консоль браузера: ошибки загрузки фото или 404 видны сразу.</li>
+            <li>Если в виджете написано «Лимит исчерпан» — отправьте запрос на увеличение из <a href="dashboard.html">личного кабинета</a>.</li>
+            <li>Если капча не проходит проверку — обновите задание и попробуйте ещё раз; токен должен проверяться на вашем сервере.</li>
+          </ol>
+
+          <form class="account-form" id="support-form" novalidate>
+            <label class="account-field" for="support-name">
+              <span>Имя или название сайта</span>
+              <input id="support-name" type="text" maxlength="80" placeholder="example.com" autocomplete="organization">
+            </label>
+            <label class="account-field" for="support-email">
+              <span>E-mail для ответа <em>необязательно</em></span>
+              <input id="support-email" type="email" maxlength="160" placeholder="you@example.com" autocomplete="email">
+            </label>
+            <label class="account-field" for="support-site">
+              <span>Адрес сайта <em>необязательно</em></span>
+              <input id="support-site" type="text" maxlength="160" placeholder="https://example.com" autocomplete="url">
+            </label>
+            <label class="account-field" for="support-message">
+              <span>Что случилось</span>
+              <textarea id="support-message" maxlength="2000" placeholder="Опишите ошибку, шаги воспроизведения и браузер" required></textarea>
+            </label>
+            <button class="btn" type="submit">Отправить в поддержку</button>
+            <p class="form-status" id="support-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="support-admin">
+            <span>Администратор сайта: вход в панель управления.</span>
+            <a href="admin.html">Админ-панель →</a>
+          </div>
+        </section>
+
+        <aside class="support-card">
+          <h2>Частые вопросы</h2>
+          <p><b>Сколько стоит?</b><br>Бесплатно. 10 000 уникальных юзеров в месяц. Других тарифов и оплаты нет.</p>
+          <p><b>Как увеличить лимит?</b><br>Из личного кабинета отправьте запрос администратору. Он увидит его в панели и поменяет лимит вручную.</p>
+          <p><b>Где взять ключ?</b><br>Создайте аккаунт — ключ появится сразу в кабинете. Один аккаунт выдаёт один ключ.</p>
+          <p><b>Почему капча появляется не всегда?</b><br>Она включается по сигналам: всплеск активности, признаки автоматизации и повторные ошибки. Это настраивается в конфигураторе.</p>
+          <p><b>Это защита от DDoS?</b><br>Нет. Капча — прикладной слой; объёмные атаки закрываются CDN/WAF и rate limiting на сервере. Подробности в <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot/blob/main/SECURITY.md" target="_blank" rel="noreferrer">SECURITY.md</a>.</p>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand"><img src="assets/crunchy-logo.png" alt="" width="22" height="22"> crunchy antibot <span>0.2 · 1.0 · 2.0</span></span>
+      <span>Поддержка · ответ через админ-панель.</span>
+      <a href="index.html">На главную</a>
+      <a href="dashboard.html">Личный кабинет</a>
+    </div>
+  </footer>
+
+  <script src="assets/account.js" defer></script>
+</body>
+</html>

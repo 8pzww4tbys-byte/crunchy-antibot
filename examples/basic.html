@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>crunchy antibot — пример с формой</title>
+  <link rel="stylesheet" href="../assets/crunchy-antibot.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: #2b1a0e;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(240, 164, 60, .2), transparent 45%),
+        #f8efdf;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+    .card {
+      width: min(430px, 100%);
+      padding: 24px;
+      background: #fffaf0;
+      border: 1px solid #e7d6bf;
+      border-radius: 22px;
+      box-shadow: 0 40px 80px -48px rgba(46, 24, 10, .6);
+    }
+    .eyebrow {
+      margin: 0 0 6px;
+      color: #e8563f;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: -.03em; }
+    .lead { margin: 0 0 20px; color: #806955; font-size: 13px; line-height: 1.55; }
+    label { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 700; }
+    input {
+      width: 100%;
+      margin-bottom: 14px;
+      padding: 11px 12px;
+      color: #2b1a0e;
+      background: #fff;
+      border: 1px solid #e7d6bf;
+      border-radius: 10px;
+      font: inherit;
+      font-size: 13px;
+    }
+    input:focus { outline: 3px solid rgba(232, 86, 63, .25); border-color: #e8563f; }
+    #captcha { margin: 18px 0; }
+    button[type="submit"] {
+      width: 100%;
+      padding: 13px;
+      color: #fff8ec;
+      background: #2b1a0e;
+      border: 0;
+      border-radius: 11px;
+      font: 700 13px/1 inherit;
+      cursor: pointer;
+    }
+    button[type="submit"]:disabled { opacity: .4; cursor: not-allowed; }
+    .status { min-height: 20px; margin: 12px 0 0; color: #806955; font-size: 12px; }
+    .status.ok { color: #2f8f5b; font-weight: 700; }
+    .sent {
+      margin: 10px 0 0;
+      padding: 10px 12px;
+      color: #2f8f5b;
+      background: #edf8f0;
+      border: 1px dashed #b9dfc7;
+      border-radius: 9px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .sent:empty { display: none; }
+    .back { display: inline-block; margin-top: 18px; color: #806955; font-size: 11px; }
+    code { padding: 2px 5px; background: #f3e4ce; border-radius: 5px; font-size: 11px; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <p class="eyebrow">пример · форма</p>
+    <h1>Заказать печенье</h1>
+    <p class="lead">Поля можно оставить пустыми — это демонстрация того, как капча разблокирует отправку. Для лимитов добавьте <code>licenseKey</code> и <code>apiBase</code> в настройках ниже.</p>
+
+    <form id="order-form">
+      <label for="name">Имя</label>
+      <input id="name" name="name" placeholder="Кто будет хрустеть?" autocomplete="name">
+
+      <label for="email">Почта</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+
+      <div id="captcha"></div>
+
+      <button id="submit" type="submit" disabled>Отправить заказ</button>
+      <p class="status" id="status" role="status" aria-live="polite">Пройдите капчу, чтобы отправить форму.</p>
+      <p class="sent" id="sent" role="status" aria-live="polite"></p>
+    </form>
+
+    <a class="back" href="../index.html">← вернуться к демо и документации</a>
+  </main>
+
+  <script src="../assets/crunchy-antibot.js"></script>
+  <script>
+    (function () {
+      const form = document.getElementById('order-form');
+      const submit = document.getElementById('submit');
+      const status = document.getElementById('status');
+      const sent = document.getElementById('sent');
+      let token = null;
+
+      const captcha = new CrunchyAntibot({
+        el: '#captcha',
+        type: 'text', // slider | grid | text
+        locale: 'ru',
+        // Для бесплатного лимита из личного кабинета раскомментируйте:
+        // licenseKey: 'cr_...',
+        // apiBase: 'https://2-26-84-26.sslip.io',
+        // enforceQuota: true,
+        // supportUrl: 'https://2-26-84-26.sslip.io/support.html',
+        onQuota: function (quota) {
+          if (quota && quota.allowed === false) {
+            status.className = 'status';
+            status.textContent = 'Лимит 10 000 юзеров в месяц исчерпан. Запросите увеличение в кабинете.';
+          }
+        },
+        onQuotaError: function () {
+          // Backend недоступен; по умолчанию капча продолжает работать.
+        },
+        onReady: function () {
+          token = null;
+          submit.disabled = true;
+          status.className = 'status';
+          status.textContent = 'Пройдите капчу, чтобы отправить форму.';
+        },
+        onFail: function (info) {
+          status.className = 'status';
+          status.textContent = 'Не совпало. Новая попытка №' + (info.attempts + 1) + '…';
+          sent.textContent = '';
+        },
+        onSuccess: function (value) {
+          token = value;
+          submit.disabled = false;
+          status.className = 'status ok';
+          status.textContent = 'Капча пройдена. Токен: ' + value;
+          sent.textContent = '';
+        }
+      });
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!token) return;
+        sent.textContent = 'Заказ «отправлен» локально. Токен: ' + token;
+        token = null;
+        submit.disabled = true;
+        captcha.reset();
+      });
+    })();
+  </script>
+</body>
+</html>

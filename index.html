@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>crunchy antibot — капча для сайта</title>
+  <meta name="description" content="crunchy antibot — три клиентские капчи: фрагмент фото, выбор фото и код с картинки. Живое демо, сигналы подозрительной активности и подключение одной командой.">
+  <link rel="icon" type="image/png" href="assets/crunchy-logo.png">
+  <link rel="stylesheet" href="assets/crunchy-antibot.css">
+  <link rel="stylesheet" href="assets/demo.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top" aria-label="crunchy antibot — на главную">
+        <img src="assets/crunchy-logo.png" alt="" width="30" height="30">
+        <span>crunchy <b>antibot</b></span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#types">Капчи</a>
+        <a href="#demo">Демо</a>
+        <a href="#config">Настройка</a>
+        <a href="#pricing">Бесплатно</a>
+        <a href="#install">Подключение</a>
+        <a href="login.html">Войти</a>
+      </nav>
+      <a class="gh-link" href="register.html">Регистрация</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-inner">
+        <span class="hero-mark"><img src="assets/crunchy-logo.png" alt="" width="88" height="88"></span>
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> 3 проверки · без зависимостей</span>
+        <h1>crunchy <span>antibot</span></h1>
+        <p class="lead">Три небольшие проверки для сайта: соберите фото, найдите печенье на сетке или введите код с картинки. Настройте реакцию на подозрительную активность, защитите форму и подключите одной командой.</p>
+        <div class="hero-actions">
+          <a class="btn" href="register.html">Создать аккаунт</a>
+          <a class="btn btn-ghost" href="#demo">Попробовать</a>
+          <a class="btn btn-ghost" href="#install">Подключить</a>
+        </div>
+        <p class="hero-meta">3 варианта <span aria-hidden="true">·</span> 10 000 юзеров бесплатно <span aria-hidden="true">·</span> 0 зависимостей</p>
+      </div>
+    </section>
+
+    <section class="section" id="types">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">варианты</span>
+            <h2>Три капчи</h2>
+          </div>
+          <p><b>0.x</b> — фрагмент фото, <b>1.x</b> — выбор фото, <b>2.x</b> — код с картинки. Выберите нужный в демо или в настройке.</p>
+        </div>
+
+        <div class="type-grid">
+          <a class="type-card" href="#demo" data-jump="slider">
+            <span class="type-num">01</span>
+            <h3>crunchy <b>v0.2</b></h3>
+            <p>Вставьте вырезанный фрагмент фото в вырез. Проверка по горизонтальным координатам.</p>
+            <span class="type-link">Открыть демо <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="type-card" href="#demo" data-jump="grid">
+            <span class="type-num">02</span>
+            <h3>crunchy <b>v1.0</b></h3>
+            <p>Выберите все фотографии с печеньем среди других снимков. Проверка на точное совпадение.</p>
+            <span class="type-link">Открыть демо <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="type-card" href="#demo" data-jump="text">
+            <span class="type-num">03</span>
+            <h3>crunchy <b>v2.0</b></h3>
+            <p>Введите код из 4–7 букв и цифр с картинки. Без учёта регистра.</p>
+            <span class="type-link">Открыть демо <span aria-hidden="true">→</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">демо</span>
+            <h2>Проверьте вживую</h2>
+          </div>
+          <p>Виджет работает полностью в браузере. События и токен появляются в журнале справа.</p>
+        </div>
+
+        <div class="demo-shell">
+          <div class="demo-widget-pane">
+            <div class="tabs" role="tablist" aria-label="Варианты капчи">
+              <button class="tab is-active" type="button" role="tab" id="tab-slider" aria-selected="true" aria-controls="captcha-mount" data-type="slider">crunchy v0.2</button>
+              <button class="tab" type="button" role="tab" id="tab-grid" aria-selected="false" aria-controls="captcha-mount" data-type="grid">crunchy v1.0</button>
+              <button class="tab" type="button" role="tab" id="tab-text" aria-selected="false" aria-controls="captcha-mount" data-type="text">crunchy v2.0</button>
+            </div>
+            <div class="captcha-mount" id="captcha-mount" aria-live="polite"></div>
+            <p class="demo-hint">Токен демонстрационный: в реальном проекте его должен проверять сервер.</p>
+          </div>
+
+          <aside class="demo-log" aria-label="Журнал событий">
+            <div class="log-head">
+              <h3>Журнал</h3>
+              <button class="text-btn" type="button" id="reset-demo">Сбросить</button>
+            </div>
+            <ol class="log-list" id="log-list">
+              <li class="log-empty">Событий пока нет</li>
+            </ol>
+            <div class="last-token">
+              <span>Последний токен</span>
+              <code id="last-token">—</code>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="config">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">настройка</span>
+            <h2>Реакция на подозрение</h2>
+          </div>
+          <p>Включите сигналы, при которых появится капча. В предпросмотре их можно смоделировать кнопками.</p>
+        </div>
+
+        <div class="config-shell">
+          <div class="config-grid">
+            <div class="config-panel">
+              <label class="field" for="cfg-type">
+                <span>Тип капчи</span>
+                <select id="cfg-type">
+                  <option value="slider">crunchy v0.2</option>
+                  <option value="grid">crunchy v1.0</option>
+                  <option value="text">crunchy v2.0</option>
+                </select>
+              </label>
+
+              <fieldset class="signals">
+                <legend>Показывать при</legend>
+
+                <label class="signal-row" for="cfg-rate">
+                  <input type="checkbox" id="cfg-rate" checked>
+                  <span>всплеске активности</span>
+                </label>
+                <div class="signal-config" id="cfg-rate-config">
+                  <input id="cfg-rate-count" type="number" min="3" max="500" step="1" value="20" aria-label="Событий">
+                  <span>событий за</span>
+                  <input id="cfg-rate-window" type="number" min="1" max="120" step="1" value="10" aria-label="Секунд">
+                  <span>сек</span>
+                </div>
+
+                <label class="signal-row" for="cfg-auto">
+                  <input type="checkbox" id="cfg-auto" checked>
+                  <span>признаках автоматизации</span>
+                </label>
+
+                <label class="signal-row" for="cfg-fail">
+                  <input type="checkbox" id="cfg-fail" checked>
+                  <span>неудачных действиях</span>
+                </label>
+                <div class="signal-config" id="cfg-fail-config">
+                  <input id="cfg-fail-count" type="number" min="1" max="20" step="1" value="3" aria-label="Ошибок">
+                  <span>подряд</span>
+                </div>
+              </fieldset>
+
+              <div class="config-hint" id="cfg-hint"></div>
+            </div>
+
+            <div class="config-preview">
+              <div class="preview-head">
+                <span>Предпросмотр</span>
+                <button class="text-btn" type="button" id="cfg-restart">Сбросить</button>
+              </div>
+
+              <div class="guard-monitor">
+                <div class="guard-stats">
+                  <span><b id="cfg-rate-value">0</b> / <b id="cfg-rate-limit">20</b> событий</span>
+                  <span><b id="cfg-fail-value">0</b> / <b id="cfg-fail-limit">3</b> ошибок</span>
+                  <span id="cfg-bot-state">автоматизация: нет</span>
+                </div>
+                <div class="guard-actions">
+                  <button class="mini-btn" type="button" id="cfg-burst">+10 событий</button>
+                  <button class="mini-btn" type="button" id="cfg-failure">+1 ошибка</button>
+                  <button class="mini-btn" type="button" id="cfg-bot">сигнал бота</button>
+                  <button class="mini-btn" type="button" id="cfg-reset">сброс</button>
+                </div>
+              </div>
+
+              <form class="preview-form" id="cfg-form" novalidate>
+                <label class="field" for="cfg-email">
+                  <span>E-mail</span>
+                  <input id="cfg-email" type="email" placeholder="you@example.com" autocomplete="email">
+                </label>
+                <div class="cfg-slot" id="cfg-slot" hidden></div>
+                <div class="preview-actions">
+                  <button class="btn btn-small" type="submit" id="cfg-submit">Отправить</button>
+                </div>
+                <p class="preview-status" id="cfg-state" role="status" aria-live="polite"></p>
+              </form>
+            </div>
+          </div>
+
+          <div class="code-card">
+            <div class="code-head">
+              <span>js · защита</span>
+              <button class="copy-btn" type="button" id="cfg-copy" data-copy="cfg-code">Скопировать</button>
+            </div>
+            <pre><code id="cfg-code"></code></pre>
+          </div>
+
+          <div class="security-note">
+            <strong>Это не DDoS-защита.</strong>
+            <span>Клиентский сторож видит только действия в браузере. Настоящий DDoS блокируют на сервере или CDN: rate limiting, WAF, Cloudflare. Капча — дополнительный слой, а токен нужно проверять на бэкенде.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">бесплатно</span>
+            <h2>10 000 юзеров в месяц</h2>
+          </div>
+          <p>Все три капчи, аккаунт, ключ, статистика и журнал — без оплаты. Юзер — уникальный посетитель, которому показана капча, за календарный месяц.</p>
+        </div>
+
+        <div class="free-plan">
+          <article class="free-card">
+            <div class="price-head">
+              <span class="price-name">free</span>
+              <span class="price-badge">навсегда</span>
+            </div>
+            <div class="price-value"><span>₽</span>0<small>/ мес</small></div>
+            <p class="price-limit"><b>10 000</b> юзеров в месяц</p>
+            <ul class="price-list">
+              <li>Все три капчи: v0.2, v1.0, v2.0</li>
+              <li>Ключ без срока действия</li>
+              <li>Личный кабинет и статистика</li>
+              <li>Счётчик уникальных посетителей через API</li>
+              <li>Кнопка «Не работает капча?»</li>
+            </ul>
+            <a class="btn price-btn" href="register.html">Создать аккаунт</a>
+          </article>
+
+          <aside class="free-side">
+            <span class="eyebrow">рост</span>
+            <h3>Нужно больше 10 000?</h3>
+            <p>Отправьте запрос из личного кабинета: укажите желаемый месячный лимит и расскажите о проекте. Администратор увеличит лимит вручную — доплат и тарифов нет.</p>
+            <a class="btn btn-ghost" href="support.html">Запросить увеличение</a>
+            <p class="free-side-note">Один аккаунт — один ключ. Лимит считается по анонимным ID посетителей и сбрасывается 1-го числа каждого месяца.</p>
+          </aside>
+        </div>
+
+        <div class="pricing-note">
+          <strong>Как считается лимит.</strong>
+          <span>Сервер считает уникальные анонимные ID за календарный месяц. Для жёсткой блокировки проверяйте квоту на бэкенде — клиентская капча сама по себе не является биллингом. Если капча не работает у посетителя, отправьте его на страницу поддержки.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">подключение</span>
+            <h2>На свой сайт</h2>
+          </div>
+          <p>Одна команда копирует виджет и фотографии в проект. Дальше — два тега на странице.</p>
+        </div>
+
+        <div class="install-grid">
+          <div class="install-card">
+            <span class="step">01 · командой</span>
+            <h3>Скачайте файлы</h3>
+            <p>Выполните в корне проекта. Вместо <code>public/crunchy</code> можно указать любую папку.</p>
+            <div class="command">
+              <code id="cli-command">npx github:8pzww4tbys-byte/crunchy-antibot add public/crunchy</code>
+              <button class="copy-btn" type="button" data-copy="cli-command">Скопировать</button>
+            </div>
+            <p class="install-hint">В папке появятся JS, CSS, логотип и фото.</p>
+          </div>
+
+          <div class="install-card">
+            <span class="step">02 · на странице</span>
+            <h3>Подключите виджет</h3>
+            <div class="code-small">
+              <button class="copy-btn code-copy" type="button" data-copy="embed-code">Скопировать</button>
+<pre><code id="embed-code">&lt;link rel="stylesheet" href="/crunchy/crunchy-antibot.css"&gt;
+&lt;script src="/crunchy/crunchy-antibot.js"&gt;&lt;/script&gt;
+
+&lt;div id="captcha"&gt;&lt;/div&gt;
+&lt;script&gt;
+  const captcha = new CrunchyAntibot({
+    el: '#captcha',
+    type: 'text'
+  });
+&lt;/script&gt;</code></pre>
+            </div>
+            <p class="install-hint">Путь к фото и логотипу определяется по URL скрипта автоматически.</p>
+          </div>
+        </div>
+
+        <div class="cdn-row">
+          <span>Без установки:</span>
+          <code id="cdn-code">&lt;script src="https://cdn.jsdelivr.net/gh/8pzww4tbys-byte/crunchy-antibot@main/assets/crunchy-antibot.js"&gt;&lt;/script&gt;</code>
+          <button class="copy-btn" type="button" data-copy="cdn-code">Скопировать</button>
+        </div>
+
+        <div class="security-note">
+          <strong>Про безопасность.</strong>
+          <span>Это клиентская капча: она усложняет простую накрутку, но не заменяет серверную проверку. В продакшене создавайте задание на сервере, проверяйте токен на бэкенде и ограничивайте число попыток.</span>
+        </div>
+
+        <div class="security-note">
+          <strong>Про DDoS.</strong>
+          <span>Backend в комплекте ограничивает частоту, соединения, размер тела и блокирует сканеры. Объёмные L3/L4-атаки должен держать CDN/WAF: включите Cloudflare, закройте origin и настройте rate limiting. Подробно — в <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot/blob/main/SECURITY.md" target="_blank" rel="noreferrer">SECURITY.md</a>.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand"><img src="assets/crunchy-logo.png" alt="" width="22" height="22"> crunchy antibot <span>0.2 · 1.0 · 2.0</span></span>
+      <span>Бесплатно · 10 000 юзеров в месяц · без тарифов и оплаты.</span>
+      <a href="register.html">Регистрация</a>
+      <a href="login.html">Войти</a>
+      <a href="support.html">Поддержка</a>
+      <a href="admin.html">Админ</a>
+      <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot" target="_blank" rel="noreferrer">GitHub ↗</a>
+      <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot/blob/main/SECURITY.md" target="_blank" rel="noreferrer">Защита ↗</a>
+    </div>
+  </footer>
+
+  <script src="assets/crunchy-antibot.js"></script>
+  <script src="assets/demo.js"></script>
+</body>
+</html>

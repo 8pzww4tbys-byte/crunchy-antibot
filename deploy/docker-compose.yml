@@ -1,0 +1,14 @@
+services:
+  crunchy:
+    build: ..
+    restart: unless-stopped
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8787
+      TRUST_PROXY: "1"
+    env_file:
+      - ../.env
+    ports:
+      - "127.0.0.1:8787:8787"
+    volumes:
+      - ../server/data:/app/server/data

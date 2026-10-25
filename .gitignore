@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+server/data/
+tmp/
+public/crunchy/
+*.log
+*.tgz
+.DS_Store
+Thumbs.db
