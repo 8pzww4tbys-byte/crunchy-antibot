@@ -278,7 +278,8 @@ npm run check
 4. Установите systemd-юнит из [`deploy/crunchy-antibot.service`](deploy/crunchy-antibot.service).
 5. Для первого выпуска TLS поставьте [`deploy/nginx-http-bootstrap.conf`](deploy/nginx-http-bootstrap.conf) и выполните `certbot certonly --webroot -w /var/www/certbot -d 2-26-84-26.sslip.io`.
 6. Замените конфиг на [`deploy/nginx.conf`](deploy/nginx.conf) с готовым сертификатом, выполните `nginx -t` и `systemctl reload nginx`.
-7. Откройте только 80/443; Node держите на `127.0.0.1:8787`.
+7. Установите [`deploy/letsencrypt-deploy-hook.sh`](deploy/letsencrypt-deploy-hook.sh) в `/etc/letsencrypt/renewal-hooks/deploy/10-reload-nginx.sh`, чтобы Nginx подхватывал обновлённый сертификат.
+8. Откройте только 80/443; Node держите на `127.0.0.1:8787`.
 
 `deploy/nginx.conf` содержит отдельные rate-limit-зоны для статики, API, auth и поддержки. Он не заменяет Cloudflare, но снимает часть L7-нагрузки до Node.
 
