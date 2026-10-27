@@ -1,7 +1,7 @@
 {
   "name": "crunchy-antibot",
   "version": "0.6.0",
-  "description": "Free client-side captcha with three variants, suspicion-based triggers, accounts, quotas and an admin panel.",
+  "description": "Dependency-free client-side captcha with three variants: photo puzzle, photo grid and image code.",
   "license": "MIT",
   "author": "crunchy antibot contributors",
   "homepage": "https://github.com/8pzww4tbys-byte/crunchy-antibot",
@@ -15,10 +15,10 @@
   "keywords": [
     "captcha",
     "antibot",
-    "rate-limit",
-    "ddos",
-    "free",
-    "vanilla-js"
+    "slider",
+    "grid",
+    "vanilla-js",
+    "no-dependencies"
   ],
   "bin": {
     "crunchy-antibot": "bin/crunchy-antibot.js"
@@ -34,10 +34,7 @@
     "README.md"
   ],
   "scripts": {
-    "start": "node server/index.mjs",
-    "server": "node server/index.mjs",
-    "qa": "node qa-public.mjs",
-    "check": "node --check assets/crunchy-antibot.js && node --check assets/demo.js && node --check assets/account.js && node --check bin/crunchy-antibot.js && node --check server/index.mjs && node --check server/auth.mjs && node --check server/config.mjs && node --check server/store.mjs && node --check server/security.mjs && node --check qa-public.mjs"
+    "check": "node --check assets/crunchy-antibot.js && node --check assets/demo.js && node --check bin/crunchy-antibot.js"
   },
   "engines": {
     "node": ">=18"

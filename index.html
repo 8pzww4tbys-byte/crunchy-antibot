@@ -20,11 +20,9 @@
         <a href="#types">Капчи</a>
         <a href="#demo">Демо</a>
         <a href="#config">Настройка</a>
-        <a href="#pricing">Бесплатно</a>
         <a href="#install">Подключение</a>
-        <a href="login">Войти</a>
       </nav>
-      <a class="gh-link" href="register">Регистрация</a>
+      <a class="gh-link" href="https://github.com/8pzww4tbys-byte/crunchy-antibot" target="_blank" rel="noreferrer">GitHub ↗</a>
     </div>
   </header>
 
@@ -36,11 +34,10 @@
         <h1>crunchy <span>antibot</span></h1>
         <p class="lead">Три небольшие проверки для сайта: соберите фото, найдите печенье на сетке или введите код с картинки. Настройте реакцию на подозрительную активность, защитите форму и подключите одной командой.</p>
         <div class="hero-actions">
-          <a class="btn" href="register">Создать аккаунт</a>
-          <a class="btn btn-ghost" href="#demo">Попробовать</a>
+          <a class="btn" href="#demo">Попробовать</a>
           <a class="btn btn-ghost" href="#install">Подключить</a>
         </div>
-        <p class="hero-meta">3 варианта <span aria-hidden="true">·</span> 10 000 юзеров бесплатно <span aria-hidden="true">·</span> 0 зависимостей</p>
+        <p class="hero-meta">3 варианта <span aria-hidden="true">·</span> 0 зависимостей <span aria-hidden="true">·</span> MIT</p>
       </div>
     </section>
 
@@ -219,50 +216,6 @@
       </div>
     </section>
 
-    <section class="section" id="pricing">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">бесплатно</span>
-            <h2>10 000 юзеров в месяц</h2>
-          </div>
-          <p>Все три капчи, аккаунт, ключ, статистика и журнал — без оплаты. Юзер — уникальный посетитель, которому показана капча, за календарный месяц.</p>
-        </div>
-
-        <div class="free-plan">
-          <article class="free-card">
-            <div class="price-head">
-              <span class="price-name">free</span>
-              <span class="price-badge">навсегда</span>
-            </div>
-            <div class="price-value"><span>₽</span>0<small>/ мес</small></div>
-            <p class="price-limit"><b>10 000</b> юзеров в месяц</p>
-            <ul class="price-list">
-              <li>Все три капчи: v0.2, v1.0, v2.0</li>
-              <li>Ключ без срока действия</li>
-              <li>Личный кабинет и статистика</li>
-              <li>Счётчик уникальных посетителей через API</li>
-              <li>Кнопка «Не работает капча?»</li>
-            </ul>
-            <a class="btn price-btn" href="register">Создать аккаунт</a>
-          </article>
-
-          <aside class="free-side">
-            <span class="eyebrow">рост</span>
-            <h3>Нужно больше 10 000?</h3>
-            <p>Отправьте запрос из личного кабинета: укажите желаемый месячный лимит и расскажите о проекте. Администратор увеличит лимит вручную — доплат и тарифов нет.</p>
-            <a class="btn btn-ghost" href="support">Запросить увеличение</a>
-            <p class="free-side-note">Один аккаунт — один ключ. Лимит считается по анонимным ID посетителей и сбрасывается 1-го числа каждого месяца.</p>
-          </aside>
-        </div>
-
-        <div class="pricing-note">
-          <strong>Как считается лимит.</strong>
-          <span>Сервер считает уникальные анонимные ID за календарный месяц. Для жёсткой блокировки проверяйте квоту на бэкенде — клиентская капча сама по себе не является биллингом. Если капча не работает у посетителя, отправьте его на страницу поддержки.</span>
-        </div>
-      </div>
-    </section>
-
     <section class="section" id="install">
       <div class="container">
         <div class="section-head">
@@ -318,7 +271,7 @@
 
         <div class="security-note">
           <strong>Про DDoS.</strong>
-          <span>Backend в комплекте ограничивает частоту, соединения, размер тела и блокирует сканеры. Объёмные L3/L4-атаки должен держать CDN/WAF: включите Cloudflare, закройте origin и настройте rate limiting. Подробно — в <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot/blob/main/SECURITY.md" target="_blank" rel="noreferrer">SECURITY.md</a>.</span>
+          <span>Виджет не заменяет DDoS-защиту. Объёмные атаки держат на стороне провайдера или CDN, а частоту запросов ограничивают на сервере.</span>
         </div>
       </div>
     </section>
@@ -327,13 +280,10 @@
   <footer class="footer">
     <div class="container footer-inner">
       <span class="footer-brand"><img src="assets/crunchy-logo.png" alt="" width="22" height="22"> crunchy antibot <span>0.2 · 1.0 · 2.0</span></span>
-      <span>Бесплатно · 10 000 юзеров в месяц · без тарифов и оплаты.</span>
-      <a href="register">Регистрация</a>
-      <a href="login">Войти</a>
-      <a href="support">Поддержка</a>
-      <a href="admin">Админ</a>
+      <span>Три капчи · 0 зависимостей · MIT.</span>
+      <a href="examples/basic.html">Пример формы</a>
       <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot" target="_blank" rel="noreferrer">GitHub ↗</a>
-      <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot/blob/main/SECURITY.md" target="_blank" rel="noreferrer">Защита ↗</a>
+      <a href="https://github.com/8pzww4tbys-byte/crunchy-antibot/blob/main/LICENSE" target="_blank" rel="noreferrer">Лицензия ↗</a>
     </div>
   </footer>
 

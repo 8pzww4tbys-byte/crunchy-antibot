@@ -83,7 +83,7 @@
   <main class="card">
     <p class="eyebrow">пример · форма</p>
     <h1>Заказать печенье</h1>
-    <p class="lead">Поля можно оставить пустыми — это демонстрация того, как капча разблокирует отправку. Для лимитов добавьте <code>licenseKey</code> и <code>apiBase</code> в настройках ниже.</p>
+    <p class="lead">Поля можно оставить пустыми — это демонстрация того, как капча разблокирует отправку формы.</p>
 
     <form id="order-form">
       <label for="name">Имя</label>
@@ -115,20 +115,6 @@
         el: '#captcha',
         type: 'text', // slider | grid | text
         locale: 'ru',
-        // Для бесплатного лимита из личного кабинета раскомментируйте:
-        // licenseKey: 'cr_...',
-        // apiBase: 'https://crunchy.2-26-84-26.sslip.io',
-        // enforceQuota: true,
-        // supportUrl: 'https://crunchy.2-26-84-26.sslip.io/support',
-        onQuota: function (quota) {
-          if (quota && quota.allowed === false) {
-            status.className = 'status';
-            status.textContent = 'Лимит 10 000 юзеров в месяц исчерпан. Запросите увеличение в кабинете.';
-          }
-        },
-        onQuotaError: function () {
-          // Backend недоступен; по умолчанию капча продолжает работать.
-        },
         onReady: function () {
           token = null;
           submit.disabled = true;

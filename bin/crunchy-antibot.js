@@ -88,7 +88,6 @@ function add(target) {
   console.log('  <\/script>');
   console.log('');
   console.log('  Фото и логотип подхватятся автоматически по URL скрипта.');
-  console.log('  Бесплатный ключ и лимиты: зарегистрируйтесь на сайте (см. README).');
   console.log('');
 }
 

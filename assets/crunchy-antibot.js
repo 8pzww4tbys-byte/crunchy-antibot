@@ -15,7 +15,7 @@
   const VERSION = '0.6.0';
   const TYPES = ['slider', 'grid', 'text'];
   const TYPE_VERSIONS = { slider: 'v0.2', grid: 'v1.0', text: 'v2.0' };
-  const DEFAULT_SUPPORT_URL = 'https://crunchy.2-26-84-26.sslip.io/support';
+  const DEFAULT_SUPPORT_URL = 'https://github.com/8pzww4tbys-byte/crunchy-antibot/issues';
   const SCRIPT_BASE = (function () {
     try {
       const script = document.currentScript;
@@ -44,8 +44,8 @@
         verify: 'Проверить',
         refresh: 'Новое задание',
         emptyCode: 'Сначала введите код',
-        quotaExceeded: 'Лимит бесплатного плана исчерпан. Запросите увеличение у администратора.',
-        licenseExpired: 'Ключ недействителен. Получите новый в личном кабинете.',
+        quotaExceeded: 'Лимит проверок исчерпан. Попробуйте позже.',
+        licenseExpired: 'Ключ доступа недействителен.',
         licenseInvalid: 'Ключ не найден. Проверьте licenseKey.',
         quotaCheckError: 'Не удалось проверить лимит.',
         support: 'Не работает капча?',
@@ -83,8 +83,8 @@
         verify: 'Check',
         refresh: 'New challenge',
         emptyCode: 'Enter the code first',
-        quotaExceeded: 'Free plan limit reached. Ask the administrator for an increase.',
-        licenseExpired: 'License is not valid. Get a new key in your account.',
+        quotaExceeded: 'Usage limit reached. Try again later.',
+        licenseExpired: 'Access key is not valid.',
         licenseInvalid: 'License key not found. Check licenseKey.',
         quotaCheckError: 'Could not check the usage limit.',
         support: 'Captcha not working?',
