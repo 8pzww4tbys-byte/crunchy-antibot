@@ -43,7 +43,7 @@ const concurrency = new ConcurrencyGuard(
 );
 
 const authReady = Boolean(config.auth.sessionSecret);
-const adminReady = Boolean(config.auth.adminPasswordHash);
+const adminReady = Boolean(config.auth.adminEmails.length && config.auth.adminPasswordHash);
 const cookieSecure = /^https:\/\//i.test(config.publicOrigin);
 const adminFailures = new Map();
 
@@ -61,7 +61,7 @@ if (!authReady) {
   console.warn('[auth] SESSION_SECRET is empty; login/registration are disabled until it is set');
 }
 if (!adminReady) {
-  console.warn('[auth] ADMIN_PASSWORD_HASH is empty; /admin.html cannot log in until it is set');
+  console.warn('[auth] ADMIN_PASSWORD_HASH is empty; /admin cannot log in until it is set');
 }
 
 function text(value, max = 120) {
@@ -399,9 +399,10 @@ async function adminLogin(req, res, ip) {
   }
 
   const body = await readJson(req, config.security.maxBodyBytes);
-  const login = text(body.username || body.login, 80);
+  const email = validEmail(body.email || body.username || body.login);
   const password = String(body.password || '');
-  const ok = safeEqual(login, config.auth.adminLogin) &&
+  const ok = Boolean(email) &&
+    config.auth.adminEmails.some((candidate) => safeEqual(email, candidate)) &&
     (await verifyPassword(password, config.auth.adminPasswordHash));
 
   if (!ok) {
@@ -409,16 +410,16 @@ async function adminLogin(req, res, ip) {
     store.log('admin_login_failed', {
       ip,
       userAgent: userAgent(req),
-      meta: { login: login.slice(0, 80), wait },
+      meta: { email: email || '', wait },
     });
-    throw new HttpError(401, 'Неверный логин или пароль', { code: 'invalid_admin_credentials' });
+    throw new HttpError(401, 'Неверная почта или пароль', { code: 'invalid_admin_credentials' });
   }
 
   adminFailures.delete(ip);
   store.log('admin_login', {
     ip,
     userAgent: userAgent(req),
-    meta: { login: config.auth.adminLogin },
+    meta: { email },
   });
   setSession(req, res, { role: 'admin' });
   json(res, 200, { ok: true, admin: true });
@@ -655,12 +656,54 @@ function cacheControlFor(file) {
   return 'public, max-age=3600';
 }
 
-async function serveStatic(req, res, pathname) {
+async function serveStatic(req, res, pathname, search = '') {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     throw new HttpError(405, 'Метод не разрешён', { code: 'method_not_allowed' });
   }
 
-  let file = safeStaticPath(config.staticRoot, pathname);
+  function redirect(location) {
+    res.statusCode = 301;
+    res.setHeader('Location', location + search);
+    res.setHeader('Cache-Control', 'no-cache');
+    res.end();
+  }
+
+  if (pathname === '/index.html' || pathname === '/index') {
+    redirect('/');
+    return;
+  }
+
+  if (/\.html$/i.test(pathname)) {
+    redirect(pathname.replace(/\.html$/i, ''));
+    return;
+  }
+
+  let resolvedPath = pathname;
+  if (pathname !== '/' && pathname.endsWith('/')) {
+    const withoutSlash = pathname.slice(0, -1);
+    const slashCandidate = safeStaticPath(config.staticRoot, withoutSlash + '.html');
+    try {
+      if (slashCandidate && (await fsp.stat(slashCandidate)).isFile()) {
+        redirect(withoutSlash);
+        return;
+      }
+    } catch (_) {
+      // Continue to the normal static lookup for a directory.
+    }
+  }
+
+  if (pathname !== '/' && !path.extname(pathname)) {
+    const cleanCandidate = safeStaticPath(config.staticRoot, pathname + '.html');
+    try {
+      if (cleanCandidate && (await fsp.stat(cleanCandidate)).isFile()) {
+        resolvedPath = pathname + '.html';
+      }
+    } catch (_) {
+      // The request is not a clean URL; let the normal 404 path handle it.
+    }
+  }
+
+  let file = safeStaticPath(config.staticRoot, resolvedPath);
   if (!file) throw new HttpError(404, 'Страница не найдена', { code: 'not_found' });
 
   let stat;
@@ -853,7 +896,7 @@ const server = http.createServer(async (req, res) => {
     if (isApi) {
       await handleApi(req, res, url, ip);
     } else {
-      await serveStatic(req, res, pathname);
+      await serveStatic(req, res, pathname, url.search);
     }
   } catch (error) {
     errorResponse(res, req, error, ip);
@@ -918,7 +961,7 @@ server.listen(config.port, config.host, () => {
   console.log('  http://' + config.host + ':' + config.port);
   console.log('  free plan: ' + PLANS.free.limit + ' unique visitors / month');
   console.log('  auth: ' + (authReady ? 'ready' : 'NOT configured (set SESSION_SECRET)'));
-  console.log('  admin: ' + (adminReady ? 'ready' : 'NOT configured (set ADMIN_PASSWORD_HASH)'));
+  console.log('  admin: ' + (adminReady ? 'ready (' + config.auth.adminEmails.join(', ') + ')' : 'NOT configured (set ADMIN_EMAIL and ADMIN_PASSWORD_HASH)'));
   console.log(
     '  limits: ' +
       config.security.staticLimit +

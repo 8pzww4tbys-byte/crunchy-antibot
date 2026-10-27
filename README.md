@@ -2,7 +2,7 @@
 
 Лёгкая капча для сайта без зависимостей и сборки. Три проверки, реальные фотографии, русский/английский интерфейс, показ по подозрительной активности, бесплатный лимит **10 000 уникальных юзеров в месяц**, регистрация, личный кабинет и админ-панель с журналом.
 
-**Основной сайт и личный кабинет:** [2-26-84-26.sslip.io](https://2-26-84-26.sslip.io/)
+**Основной сайт и личный кабинет:** [crunchy.2-26-84-26.sslip.io](https://crunchy.2-26-84-26.sslip.io/)
 **Статическое демо:** [8pzww4tbys-byte.github.io/crunchy-antibot](https://8pzww4tbys-byte.github.io/crunchy-antibot/)
 
 ```text
@@ -48,12 +48,12 @@ npx github:8pzww4tbys-byte/crunchy-antibot add public/crunchy
     type: 'text', // slider | grid | text
     locale: 'ru',
     licenseKey: 'cr_...',
-    apiBase: 'https://2-26-84-26.sslip.io'
+    apiBase: 'https://crunchy.2-26-84-26.sslip.io'
   });
 </script>
 ```
 
-Можно скачать архив/клонировать репозиторий и подключить файлы из `assets/`. Минимальный пример с формой: [`examples/basic.html`](examples/basic.html).
+Можно скачать архив/клонировать репозиторий и подключить файлы из `assets/`. Минимальный пример с формой: [пример формы](https://crunchy.2-26-84-26.sslip.io/examples/basic).
 
 Без установки:
 
@@ -66,7 +66,7 @@ npx github:8pzww4tbys-byte/crunchy-antibot add public/crunchy
 
 ### Ключ
 
-1. Откройте [регистрацию](https://2-26-84-26.sslip.io/register.html).
+1. Откройте [регистрацию](https://crunchy.2-26-84-26.sslip.io/register).
 2. Укажите название сайта, e-mail и пароль.
 3. Скопируйте ключ из личного кабинета и передайте его в `licenseKey`.
 
@@ -98,9 +98,9 @@ const captcha = new CrunchyAntibot({
   type: 'grid',
   locale: 'ru',
   licenseKey: 'cr_...',              // ключ из личного кабинета
-  apiBase: 'https://2-26-84-26.sslip.io',
+  apiBase: 'https://crunchy.2-26-84-26.sslip.io',
   enforceQuota: true,                 // блокировать виджет при 402
-  supportUrl: 'https://2-26-84-26.sslip.io/support.html',
+  supportUrl: 'https://crunchy.2-26-84-26.sslip.io/support',
   onReady(info) {},
   onFail(info) {},
   onSuccess(token, info) {},
@@ -117,7 +117,7 @@ const captcha = new CrunchyAntibot({
 | `locale` | `'ru' \| 'en'` | Язык интерфейса. |
 | `assetsPath` | `string` | База для `photos/` и логотипа. По умолчанию — папка скрипта. |
 | `licenseKey` | `string` | Ключ бесплатного аккаунта. Если задан вместе с `apiBase`, виджет отправляет usage. |
-| `apiBase` | `string` | Например, `https://2-26-84-26.sslip.io`. |
+| `apiBase` | `string` | Например, `https://crunchy.2-26-84-26.sslip.io`. |
 | `enforceQuota` | `boolean` | `true` по умолчанию: при исчерпанном лимите виджет блокируется. |
 | `supportUrl` | `string` | Куда ведёт «Не работает капча?». По умолчанию — страница поддержки проекта. |
 | `visitorId` | `string` | Свой анонимный ID. По умолчанию UUID в `localStorage`. |
@@ -166,13 +166,15 @@ CrunchyAntibot.versions;      // { slider: 'v0.2', grid: 'v1.0', text: 'v2.0' }
 
 ### Регистрация и вход
 
-- `/register.html` — название сайта, e-mail, пароль (от 8 символов).
-- `/login.html` — вход по e-mail и паролю.
-- `/dashboard.html` — ключ, расход лимита, история запросов, выход.
-- `/support.html` — форма поддержки и FAQ.
-- `/admin.html` — админ-панель.
+- `/register` — название сайта, e-mail, пароль (от 8 символов).
+- `/login` — вход по e-mail и паролю.
+- `/dashboard` — ключ, расход лимита, история запросов, выход.
+- `/support` — форма поддержки и FAQ.
+- `/admin` — админ-панель.
 
-Пароли хранятся как `scrypt`-хеши с солью. Сессия — подписанная HttpOnly-кука `SameSite=Lax`; в HTTPS добавляется `Secure`. Секрет сессии и хеш пароля администратора задаются только в `.env` на сервере.
+Старые адреса с `.html` (`/register.html`, `/login.html`, `/dashboard.html`, `/support.html`, `/admin.html`, `/index.html`) отвечают `301` на короткий путь.
+
+Пароли хранятся как `scrypt`-хеши с солью. Сессия — подписанная HttpOnly-кука `SameSite=Lax`; в HTTPS добавляется `Secure`. Секрет сессии, почта администратора и хеш пароля задаются только в `.env` на сервере.
 
 ### Лимит
 
@@ -186,7 +188,7 @@ CrunchyAntibot.versions;      // { slider: 'v0.2', grid: 'v1.0', text: 'v2.0' }
 
 ### Админ-панель
 
-`/admin.html` после входа показывает:
+`/admin` после входа показывает:
 
 - число пользователей, расход за месяц, ожидающие запросы и блокировки;
 - список пользователей: e-mail, сайт, ключ, лимит, расход, дата регистрации, статус;
@@ -194,10 +196,10 @@ CrunchyAntibot.versions;      // { slider: 'v0.2', grid: 'v1.0', text: 'v2.0' }
 - запросы на увеличение лимита с одобрением/отклонением;
 - журнал: регистрации, входы, ошибки входа, запросы лимита, поддержка, исчерпание квоты и действия администратора.
 
-Логин администратора и хеш пароля задаются в `.env`:
+Почта администратора и хеш пароля задаются в `.env`. Можно перечислить несколько адресов через запятую — любой из них принимается при входе, первый показывается в шапке панели:
 
 ```bash
-ADMIN_LOGIN=admin
+ADMIN_EMAIL=admin@crunchy.2-26-84-26.sslip.io,admin@2-26-84-26.sslip.io
 ADMIN_PASSWORD_HASH=scrypt$...
 ```
 
@@ -233,7 +235,7 @@ npm run server
 | `POST` | `/api/support` | `{name?,email?,site?,message}` → запись в журнал поддержки. |
 | `POST` | `/api/usage` | `{licenseKey,visitorId}` → `{allowed,used,limit,remaining}`; `403 license_blocked` для заблокированного ключа. |
 | `POST` | `/api/license/info` | Информация по ключу. |
-| `POST` | `/api/admin/login` | `{username,password}` → админ-сессия. |
+| `POST` | `/api/admin/login` | `{email,password}` → админ-сессия. |
 | `POST` | `/api/admin/logout` | Выход администратора. |
 | `GET` | `/api/admin/overview` | Пользователи, запросы, журнал, статистика. |
 | `GET` | `/api/admin/logs?limit=250` | Журнал. |
@@ -246,12 +248,12 @@ npm run server
 Скопируйте `.env.example` в `.env` и заполните:
 
 ```bash
-PUBLIC_ORIGIN=https://2-26-84-26.sslip.io
-ALLOWED_ORIGINS=https://2-26-84-26.sslip.io,https://8pzww4tbys-byte.github.io
+PUBLIC_ORIGIN=https://crunchy.2-26-84-26.sslip.io
+ALLOWED_ORIGINS=https://crunchy.2-26-84-26.sslip.io,https://8pzww4tbys-byte.github.io
 TRUST_PROXY=1
 FREE_LIMIT=10000
 SESSION_SECRET=<48+ случайных байт base64url>
-ADMIN_LOGIN=admin
+ADMIN_EMAIL=admin@crunchy.2-26-84-26.sslip.io,admin@2-26-84-26.sslip.io
 ADMIN_PASSWORD_HASH=scrypt$...
 DATA_DIR=server/data
 ```
@@ -264,7 +266,17 @@ DATA_DIR=server/data
 npm run check
 ```
 
-Проверяет синтаксис виджета, демо, аккаунтов, CLI и backend-модулей.
+Проверяет синтаксис виджета, демо, аккаунтов, CLI, backend-модулей и QA-скрипта.
+
+Публичный smoke-тест (нужен пароль администратора; без него админ-проверки пропускаются):
+
+```bash
+QA_ADMIN_PASSWORD='...' node qa-public.mjs
+# Windows PowerShell:
+$env:QA_ADMIN_PASSWORD='...'; node qa-public.mjs
+```
+
+Скрипт проверяет страницы, редиректы `.html` → короткие URL, заголовки, бесплатный тариф, регистрацию, usage, поддержку, блокировку лицензии и админ-панель. Он создаёт аккаунт `qa.*@example.com` и печатает `TEST_EMAIL`/`TEST_LICENSE`; после прогона удалите его из `server/data/store.json` (на production — через SSH).
 
 ---
 
@@ -276,10 +288,14 @@ npm run check
 2. Создайте системного пользователя `crunchy`, каталог `server/data` с правами на запись.
 3. Положите production `.env` в `/opt/crunchy-antibot/.env`, владелец `root:crunchy`, права `chmod 640`.
 4. Установите systemd-юнит из [`deploy/crunchy-antibot.service`](deploy/crunchy-antibot.service).
-5. Для первого выпуска TLS поставьте [`deploy/nginx-http-bootstrap.conf`](deploy/nginx-http-bootstrap.conf) и выполните `certbot certonly --webroot -w /var/www/certbot -d 2-26-84-26.sslip.io`.
+5. Для первого выпуска TLS поставьте [`deploy/nginx-http-bootstrap.conf`](deploy/nginx-http-bootstrap.conf) и выполните `certbot certonly --webroot -w /var/www/certbot --cert-name crunchy.2-26-84-26.sslip.io -d crunchy.2-26-84-26.sslip.io -d 2-26-84-26.sslip.io`.
 6. Замените конфиг на [`deploy/nginx.conf`](deploy/nginx.conf) с готовым сертификатом, выполните `nginx -t` и `systemctl reload nginx`.
 7. Установите [`deploy/letsencrypt-deploy-hook.sh`](deploy/letsencrypt-deploy-hook.sh) в `/etc/letsencrypt/renewal-hooks/deploy/10-reload-nginx.sh`, чтобы Nginx подхватывал обновлённый сертификат.
 8. Откройте только 80/443; Node держите на `127.0.0.1:8787`.
+9. Установите слой DDoS:
+   - [`deploy/crunchy-guard.nft`](deploy/crunchy-guard.nft) → `/etc/crunchy-guard.nft`, [`deploy/crunchy-guard.service`](deploy/crunchy-guard.service) → `/etc/systemd/system/crunchy-guard.service`, затем `systemctl daemon-reload && systemctl enable --now crunchy-guard`;
+   - [`deploy/99-crunchy-guard.conf`](deploy/99-crunchy-guard.conf) → `/etc/sysctl.d/99-crunchy-guard.conf`, затем `sysctl --system`;
+   - [`deploy/fail2ban-filter-crunchy-antibot.conf`](deploy/fail2ban-filter-crunchy-antibot.conf) → `/etc/fail2ban/filter.d/crunchy-antibot.conf`, [`deploy/fail2ban-jail-crunchy-antibot.conf`](deploy/fail2ban-jail-crunchy-antibot.conf) → `/etc/fail2ban/jail.d/crunchy-antibot.local`, затем `systemctl reload fail2ban`.
 
 `deploy/nginx.conf` содержит отдельные rate-limit-зоны для статики, API, auth и поддержки. Он не заменяет Cloudflare, но снимает часть L7-нагрузки до Node.
 
@@ -297,23 +313,22 @@ docker compose -f deploy/docker-compose.yml up -d --build
 
 ### Домен
 
-Основной адрес `2-26-84-26.sslip.io` — технический домен 3-го уровня на wildcard DNS `sslip.io`, привязанный к IP `2.26.84.26`. Это не покупка у регистратора, а стабильный DNS-хост без аккаунта и оплаты; при смене IP адрес нужно заменить. TLS выпущен Let's Encrypt для этого хоста. Если нужен брендовый домен, его регистрируют отдельно и направляют A-записью на тот же IP.
+Основной адрес `crunchy.2-26-84-26.sslip.io` — технический хост с префиксом `crunchy` на wildcard DNS `sslip.io`, привязанный к IP `2.26.84.26`. Легаси-адрес `2-26-84-26.sslip.io` остаётся рабочим. Это не покупка у регистратора, а стабильный DNS-хост без аккаунта и оплаты; при смене IP оба имени нужно заменить. TLS выпущен Let's Encrypt сразу для двух имён. Брендовый `crunchy.switzerlant.online` или `crunchy.switzerlant.ru` потребует A-записи в DNS reg.ru на этот же IP; без доступа к DNS включить его нельзя.
 
 ---
 
 ## DDoS: что реально сделано
 
-В Node реализованы:
+Защита собрана в несколько слоёв, а не только в Node:
 
-- лимиты запросов на IP по категориям (статика/API/auth/поддержка);
-- баны после серии нарушений, ограничение одновременных соединений;
-- ограничение активных запросов и соединений на IP;
-- таймауты заголовков/тела, лимит размера тела, лимит заголовков;
-- блокировка типовых сканерских путей (`.env`, `.git`, `wp-admin`, `phpmyadmin` и т.п.);
-- security headers, HSTS за HTTPS, CSP для HTML;
-- Nginx-конфиг с `limit_req`/`limit_conn` и отдельными зонами.
+- **Play2Go upstream** — по данным провайдера, фильтрация L3–L7 до 17 Tbit/s на его сети. Это первый и главный слой для объёмных атак.
+- **nftables guard** — `crunchy-guard.service`: отбрасывает invalid-пакеты, новые TCP-соединения на 80/443 сверх 40/с с burst 80 на источник и ICMP echo сверх 20/с.
+- **sysctl** — `tcp_max_syn_backlog=4096`, `somaxconn=4096`, syncookies.
+- **Nginx** — `limit_req` для статики/API/auth/поддержки, `limit_conn 12` на IP, таймауты, лимит тела 64 КБ и заголовков, ранний `444` для сканерских путей, отдельный access-log.
+- **fail2ban** — банит источник в UFW после 15 ответов `401`/`429` за 60 секунд; бан 1 час с инкрементом до суток. Проверено на тестовом IP.
+- **Node** — лимиты запросов по категориям, баны после серии нарушений, лимиты активных запросов/соединений, таймауты, security headers, CSP/HSTS, проверка Origin, блокировка сканерских путей.
 
-Это **прикладная** защита. Объёмные L3/L4-атаки и распределённый L7-флуд нужно закрывать CDN/WAF (Cloudflare, Qrator, AWS Shield) и/или защитой провайдера. Подробный чек-лист — в [SECURITY.md](SECURITY.md).
+Это закрывает прикладной L7-абьюз и даёт запас по L3/L4 на стороне провайдера. Распределённый L7-флуд с тысяч IP и атаки выше лимита провайдера всё равно требуют Cloudflare/WAF или отдельного anti-DDoS-сервиса с access-токеном. Подробный чек-лист — в [SECURITY.md](SECURITY.md).
 
 ---
 

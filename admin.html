@@ -12,16 +12,16 @@
 <body data-page="admin">
   <header class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="index.html" aria-label="crunchy antibot — на главную">
+      <a class="brand" href="./" aria-label="crunchy antibot — на главную">
         <img src="assets/crunchy-logo.png" alt="" width="30" height="30">
         <span>crunchy <b>antibot</b></span>
       </a>
       <nav class="nav" aria-label="Основная навигация">
-        <a href="index.html">Сайт</a>
-        <a href="support.html">Поддержка</a>
-        <a href="register.html">Регистрация</a>
+        <a href="./">Сайт</a>
+        <a href="support">Поддержка</a>
+        <a href="register">Регистрация</a>
       </nav>
-      <a class="gh-link" href="index.html">На главную</a>
+      <a class="gh-link" href="./">На главную</a>
     </div>
   </header>
 
@@ -32,11 +32,11 @@
       <section class="account-card admin-login" id="admin-login" hidden aria-labelledby="admin-login-title">
         <span class="eyebrow">только администратор</span>
         <h2 id="admin-login-title">Вход в админ-панель</h2>
-        <p class="account-sub">Логин и пароль администратора заданы на сервере. После входа доступны пользователи, лимиты и журнал событий.</p>
+        <p class="account-sub">Почта и пароль администратора заданы на сервере. После входа доступны пользователи, лимиты и журнал событий.</p>
         <form class="account-form" id="admin-login-form" novalidate>
-          <label class="account-field" for="admin-username">
-            <span>Логин</span>
-            <input id="admin-username" name="username" type="text" maxlength="80" autocomplete="username" required>
+          <label class="account-field" for="admin-email">
+            <span>Почта</span>
+            <input id="admin-email" name="email" type="email" maxlength="160" autocomplete="email" placeholder="admin@example.com" required>
           </label>
           <label class="account-field" for="admin-password">
             <span>Пароль</span>
@@ -46,8 +46,8 @@
           <p class="form-status" id="admin-login-status" role="status" aria-live="polite"></p>
         </form>
         <div class="account-links">
-          <a href="support.html">Поддержка</a>
-          <a href="register.html">Регистрация юзера</a>
+          <a href="support">Поддержка</a>
+          <a href="register">Регистрация юзера</a>
         </div>
       </section>
 
@@ -131,8 +131,8 @@
     <div class="container footer-inner">
       <span class="footer-brand"><img src="assets/crunchy-logo.png" alt="" width="22" height="22"> crunchy antibot <span>0.2 · 1.0 · 2.0</span></span>
       <span>Админ-панель · доступ только по сессии.</span>
-      <a href="index.html">На главную</a>
-      <a href="support.html">Поддержка</a>
+      <a href="./">На главную</a>
+      <a href="support">Поддержка</a>
     </div>
   </footer>
 

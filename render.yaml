@@ -26,7 +26,7 @@ services:
         value: "10000"
       - key: SESSION_SECRET
         sync: false
-      - key: ADMIN_LOGIN
-        value: admin
+      - key: ADMIN_EMAIL
+        sync: false
       - key: ADMIN_PASSWORD_HASH
         sync: false

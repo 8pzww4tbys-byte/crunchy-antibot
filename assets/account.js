@@ -1,12 +1,13 @@
 (function () {
   'use strict';
 
-  var PRODUCTION_ORIGIN = 'https://2-26-84-26.sslip.io';
+  var PRODUCTION_ORIGIN = 'https://crunchy.2-26-84-26.sslip.io';
 
   // GitHub Pages serves only static files. Auth needs the Node backend,
   // so account pages always continue on the production origin.
   if (/\.github\.io$/i.test(location.hostname)) {
     var projectPath = location.pathname.replace(/^\/crunchy-antibot(?=\/|$)/, '') || '/';
+    projectPath = projectPath.replace(/\/index\.html$/i, '/').replace(/\.html$/i, '');
     location.replace(PRODUCTION_ORIGIN + projectPath + location.search + location.hash);
     return;
   }
@@ -154,7 +155,7 @@
         } catch (_) {
           // The cookie is cleared client-side by the redirect anyway.
         }
-        location.href = 'index.html';
+        location.href = '/';
       });
     });
   }
@@ -184,7 +185,7 @@
           }
         });
         setStatus(status, 'Аккаунт создан. Открываем кабинет…', 'success');
-        location.href = 'dashboard.html';
+        location.href = 'dashboard';
       } catch (error) {
         setStatus(status, error.message, 'error');
         busy(form, false);
@@ -211,7 +212,7 @@
             password: fieldValue('#login-password')
           }
         });
-        location.href = 'dashboard.html';
+        location.href = 'dashboard';
       } catch (error) {
         setStatus(status, error.message, 'error');
         busy(form, false);
@@ -300,7 +301,7 @@
       data = await api('/api/me');
     } catch (error) {
       if (error.status === 401) {
-        location.replace('login.html');
+        location.replace('login');
         return;
       }
       var dashboardStatus = $('#dashboard-status');
@@ -389,7 +390,7 @@
     if (entry.type === 'admin_limit_request_resolved') return meta.status + (meta.limit ? ' · ' + formatNumber(meta.limit) : '');
     if (entry.type === 'quota_exceeded') return formatNumber(meta.used) + ' / ' + formatNumber(meta.limit);
     if (entry.type === 'register') return meta.siteName || '';
-    if (entry.type === 'admin_login_failed') return meta.login || '';
+    if (entry.type === 'admin_login_failed') return meta.email || meta.login || '';
     return '';
   }
 
@@ -602,7 +603,7 @@
           await api('/api/admin/login', {
             method: 'POST',
             body: {
-              username: fieldValue('#admin-username'),
+              email: fieldValue('#admin-email'),
               password: fieldValue('#admin-password')
             }
           });

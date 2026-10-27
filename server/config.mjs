@@ -28,6 +28,22 @@ function loadEnvFile(file) {
 
 loadEnvFile(path.join(ROOT, '.env'));
 
+function email(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized) ? normalized : '';
+}
+
+function emails(value) {
+  return Array.from(
+    new Set(
+      String(value || '')
+        .split(',')
+        .map((item) => email(item))
+        .filter(Boolean)
+    )
+  );
+}
+
 function num(name, fallback, min = 0, max = Number.MAX_SAFE_INTEGER) {
   const parsed = Number(process.env[name]);
   if (!Number.isFinite(parsed)) return fallback;
@@ -55,6 +71,7 @@ const defaultOrigins = [
   'https://8pzww4tbys-byte.github.io',
 ];
 const allowedOrigins = Array.from(new Set([publicOrigin, ...list('ALLOWED_ORIGINS', defaultOrigins)]));
+const adminEmails = emails(process.env.ADMIN_EMAIL);
 
 export const PLANS = Object.freeze({
   free: Object.freeze({
@@ -85,7 +102,8 @@ export const config = Object.freeze({
     sessionSecret: String(process.env.SESSION_SECRET || ''),
     sessionDays: num('SESSION_DAYS', 30, 1, 180),
     cookieName: 'crunchy_session',
-    adminLogin: String(process.env.ADMIN_LOGIN || 'admin').trim() || 'admin',
+    adminEmail: adminEmails[0] || '',
+    adminEmails: Object.freeze(adminEmails),
     adminPasswordHash: String(process.env.ADMIN_PASSWORD_HASH || '').trim(),
     adminLockMs: num('ADMIN_LOCK_MS', 15 * 60_000, 60_000, 24 * 3600_000),
     adminFailures: num('ADMIN_FAILURES', 5, 1, 100),

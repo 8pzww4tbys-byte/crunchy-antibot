@@ -15,7 +15,7 @@
   const VERSION = '0.6.0';
   const TYPES = ['slider', 'grid', 'text'];
   const TYPE_VERSIONS = { slider: 'v0.2', grid: 'v1.0', text: 'v2.0' };
-  const DEFAULT_SUPPORT_URL = 'https://2-26-84-26.sslip.io/support.html';
+  const DEFAULT_SUPPORT_URL = 'https://crunchy.2-26-84-26.sslip.io/support';
   const SCRIPT_BASE = (function () {
     try {
       const script = document.currentScript;

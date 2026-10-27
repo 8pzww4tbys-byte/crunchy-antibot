@@ -36,7 +36,8 @@
   "scripts": {
     "start": "node server/index.mjs",
     "server": "node server/index.mjs",
-    "check": "node --check assets/crunchy-antibot.js && node --check assets/demo.js && node --check assets/account.js && node --check bin/crunchy-antibot.js && node --check server/index.mjs && node --check server/auth.mjs && node --check server/config.mjs && node --check server/store.mjs && node --check server/security.mjs"
+    "qa": "node qa-public.mjs",
+    "check": "node --check assets/crunchy-antibot.js && node --check assets/demo.js && node --check assets/account.js && node --check bin/crunchy-antibot.js && node --check server/index.mjs && node --check server/auth.mjs && node --check server/config.mjs && node --check server/store.mjs && node --check server/security.mjs && node --check qa-public.mjs"
   },
   "engines": {
     "node": ">=18"

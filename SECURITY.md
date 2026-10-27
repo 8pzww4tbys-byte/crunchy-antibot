@@ -1,6 +1,19 @@
 # Безопасность и защита от DDoS
 
-Коротко: **полноценная защита от DDoS не может жить только в JavaScript или в одном Node-процессе.** Объёмные атаки L3/L4 (гигабиты/миллионы пакетов) принимает сеть провайдера или CDN. В этом репозитории есть прикладной слой защиты и готовые конфиги, чтобы закрыть L7-абьюз, но production-схема обязательно включает CDN/WAF и прокси перед origin.
+Коротко: **полноценная защита от DDoS не может жить только в JavaScript или в одном Node-процессе.** Объёмные атаки L3/L4 (гигабиты/миллионы пакетов) принимает сеть провайдера или CDN. В текущем production включены upstream-фильтрация Play2Go, nftables, Nginx, fail2ban и прикладные лимиты Node; для распределённого L7-флуда с тысяч IP всё равно нужен Cloudflare/WAF или отдельный anti-DDoS-сервис.
+
+## Что включено на текущем VPS
+
+| Слой | Что делает |
+|---|---|
+| Play2Go upstream | По данным провайдера — фильтрация L3–L7 до 17 Tbit/s на его сети. |
+| `crunchy-guard` (nftables) | Отбрасывает invalid-пакеты, новые TCP-соединения на 80/443 сверх 40/с с burst 80 на источник, ICMP echo сверх 20/с. |
+| sysctl | `net.ipv4.tcp_max_syn_backlog=4096`, `net.core.somaxconn=4096`, syncookies. |
+| Nginx | `limit_req` по категориям, `limit_conn 12` на IP, таймауты, лимит тела 64 КБ/заголовков, ранний `444` для сканеров, отдельный access-log. |
+| fail2ban + UFW | Бан источника после 15 ответов `401`/`429` за 60 секунд; 1 час с инкрементом до суток. |
+| Node | Лимиты запросов, баны, ограничение активных запросов и соединений, таймауты, security headers. |
+
+Ограничение остаётся тем же: upstream-защита и один VPS не гарантируют доступность при атаке выше лимита провайдера или при распределённом L7-флуде, который имитирует нормальных пользователей.
 
 ## Что уже есть в backend
 
@@ -73,7 +86,7 @@ crunchy antibot Node backend
    - `http.request.uri.path starts_with "/api/"` → 60 запросов/мин на IP;
    - `http.request.uri.path starts_with "/assets/"` → 600 запросов/мин на IP;
    - `http.request.uri.path eq "/"` → Challenge при всплеске.
-4. Cache Rules: кешировать `/assets/*`, **bypass** для `/api/*`, `/admin.html`, `/dashboard.html`.
+4. Cache Rules: кешировать `/assets/*`, **bypass** для `/api/*`, `/admin`, `/dashboard`.
 5. Закройте origin: разрешите входящие только с [официальных IP Cloudflare](https://www.cloudflare.com/ips/), включите Authenticated Origin Pulls. Не публикуйте origin-IP.
 6. Включите `TRUST_PROXY=1` в `.env` **только** если origin действительно стоит за доверенным прокси. Иначе клиент подделает `X-Forwarded-For`.
 
